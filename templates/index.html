@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Workout Plan Generator</title>
+    <style>
+        /* Global Styles */
+        body {
+            font-family: 'Segoe UI', Roboto, Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background: linear-gradient(135deg, #74ebd5, #ACB6E5);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-start;
+        }
+
+        h1 {
+            text-align: center;
+            margin: 40px 0 20px;
+            color: #333;
+            font-size: 2.2em;
+            text-shadow: 0 1px 2px rgba(0,0,0,0.1);
+        }
+
+        /* Form Container */
+        form {
+            max-width: 420px;
+            width: 90%;
+            margin: 0 auto 40px;
+            padding: 25px 30px;
+            background: #ffffffcc;
+            backdrop-filter: blur(8px);
+            border-radius: 15px;
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
+            position: relative;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 6px;
+            font-weight: 600;
+            color: #444;
+        }
+
+        select,
+        input[type="number"],
+        input[type="range"] {
+            width: 100%;
+            padding: 10px 12px;
+            margin-bottom: 20px;
+            border: 1px solid #ccc;
+            border-radius: 8px;
+            box-sizing: border-box;
+            background-color: #fafafa;
+            transition: all 0.3s ease;
+        }
+
+        select:focus,
+        input[type="range"]:focus {
+            border-color: #4caf50;
+            outline: none;
+            box-shadow: 0 0 0 2px rgba(76, 175, 80, 0.2);
+        }
+
+        /* Slider output positioning */
+        output {
+            display: inline-block;
+            font-size: 0.9em;
+            margin-left: 10px;
+            color: #333;
+            font-weight: bold;
+        }
+
+        /* Hidden weight inputs */
+        #weight-label,
+        #weight-slider,
+        #weight-output {
+            display: none;
+        }
+
+        /* Button styling */
+        button {
+            width: 100%;
+            padding: 12px;
+            background-color: #4caf50;
+            color: #fff;
+            border: none;
+            border-radius: 8px;
+            font-size: 1em;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            letter-spacing: 0.5px;
+        }
+
+        button:hover {
+            background-color: #43a047;
+            transform: translateY(-1px);
+            box-shadow: 0 4px 12px rgba(67, 160, 71, 0.3);
+        }
+
+        button:active {
+            transform: translateY(1px);
+            box-shadow: none;
+        }
+
+        /* Responsive behavior */
+        @media (max-width: 480px) {
+            form {
+                padding: 20px;
+            }
+            h1 {
+                font-size: 1.8em;
+            }
+        }
+    </style>
+</head>
+<body>
+    <h1>Workout Plan Generator</h1>
+    <form id="workout-form" method="POST">
+        <label for="goal">Goal:</label>
+        <select name="goal" id="goal">
+            <option value="Muscle gain" selected>Muscle gain</option>
+            <option value="Weight loss">Weight loss</option>
+        </select>
+
+        <label for="weeks">Weeks:</label>
+        <input type="range" name="weeks" id="weeks-slider" min="1" max="12" value="1">
+        <output for="weeks-slider" id="weeks-output">1</output>
+
+        <label for="weight" id="weight-label">Weight loss (kg):</label>
+        <input type="range" name="weight" id="weight-slider" min="1" max="10">
+        <output for="weight-slider" id="weight-output">1</output>
+
+        <label for="location">Workout location:</label>
+        <select name="location" id="location">
+            <option value="Outdoors">Outdoors</option>
+            <option value="Home">Home</option>
+            <option value="Gym">Gym</option>
+        </select>
+
+        <button type="submit">Generate</button>
+    </form>
+
+    <script>
+        // Weeks slider handling
+        const weeksSlider = document.getElementById('weeks-slider');
+        const weeksOutput = document.getElementById('weeks-output');
+        weeksOutput.innerHTML = weeksSlider.value;
+
+        weeksSlider.oninput = function() {
+            weeksOutput.innerHTML = this.value;
+        };
+
+        // Weight loss (kg) slider handling
+        const weightSlider = document.getElementById('weight-slider');
+        const weightOutput = document.getElementById('weight-output');
+        weightOutput.innerHTML = weightSlider.value;
+
+        weightSlider.oninput = function() {
+            weightOutput.innerHTML = this.value;
+        };
+
+        // Weight loss goal selection handling
+        const goalSelect = document.getElementById('goal');
+        const weightLabel = document.getElementById('weight-label');
+
+        goalSelect.onchange = function() {
+            if (this.value === 'Weight loss') {
+                weightLabel.style.display = 'block';
+                weightSlider.style.display = 'block';
+                weightOutput.style.display = 'inline-block';
+            } else {
+                weightLabel.style.display = 'none';
+                weightSlider.style.display = 'none';
+                weightOutput.style.display = 'none';
+            }
+        };
+    </script>
+</body>
+</html>
